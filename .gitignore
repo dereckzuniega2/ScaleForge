@@ -13,6 +13,9 @@
 *.tsbuildinfo
 
 # Environment files
+# .env
+# .env.local
+# .env.*.local
 .env
 .env.local
 .env.*.local
@@ -56,3 +59,46 @@ tmp/
 temp/
 .cache/
 .vercel/
+# npm
+.npm/
+
+# Yarn
+.yarn/
+.yarnrc.yml
+
+# VS Code settings
+.history/
+
+# MacOS
+.AppleDouble
+.LSOverride
+
+# Windows
+*.stackdump
+
+# JetBrains
+.idea/
+.idea_modules/
+.idea_config/
+
+# SvelteKit
+.svelte-kit/
+
+# Vercel
+.vercel/
+
+# Netlify
+.netlify/
+
+# Firebase
+.firebase/
+
+# Coverage
+coverage/
+
+# Misc
+*.swp
+*.bak
+*.tmp
+*.orig
+*.rej

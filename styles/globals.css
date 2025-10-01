@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -117,8 +116,8 @@ body {
 }
 
 .filters-title > div {
-  background: rgba(11,20,22,0.6);
-  border: 1px solid rgba(255,255,255,0.04);
+  background: rgba(11, 20, 22, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.04);
   color: #d1d5db;
   padding: 0.28rem 0.55rem;
   border-radius: 0.375rem;
@@ -132,8 +131,8 @@ body {
   gap: 0.45rem;
   padding: 0.32rem 0.6rem;
   min-height: 32px;
-  background: rgba(7,18,26,0.55);
-  border: 1px solid rgba(255,255,255,0.04);
+  background: rgba(7, 18, 26, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.04);
   color: #d1d5db;
   font-size: 0.88rem;
   border-radius: 0.375rem;
@@ -148,10 +147,13 @@ body {
 }
 
 .filter-pill:hover {
-  background: rgba(11,20,22,0.85);
+  background: rgba(11, 20, 22, 0.85);
 }
 
 .filter-pill:active {
   transform: translateY(1px);
 }
 
+.rdrDefinedRangesWrapper {
+  display: none !important;
+}

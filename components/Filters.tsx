@@ -62,7 +62,15 @@ export default function Filters({
 }: Props) {
   // single open state: null or one of the keys below
   const [openFilter, setOpenFilter] = useState<
-    null | "name" | "verification" | "email" | "mobile" | "domain" | "date" | "lastActive" | "status"
+    | null
+    | "name"
+    | "verification"
+    | "email"
+    | "mobile"
+    | "domain"
+    | "date"
+    | "lastActive"
+    | "status"
   >(null);
 
   // prefer lists from props (server) but fall back to empty arrays
@@ -83,20 +91,42 @@ export default function Filters({
 
   return (
     <div className="filters-container w-full px-4">
-      <div className="flex items-center gap-3 filters-title">
-        <div className="text-sm font-medium">Filters |</div>
+      <div className="flex items-center gap-3 ">
+        <div className="text-2xl">Filters |</div>
       </div>
       {/* Name Filter */}
-      <div className="relative">
+      <div className="relative px-2">
         <button
           ref={nameRef}
           onClick={() => setOpenFilter(openFilter === "name" ? null : "name")}
           className="filter-pill"
         >
-          <span className="text-sm">Name</span>
-          <svg className="w-3 h-3 text-gray-400" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 8l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+          <span className="text-sm px-4">Name</span>
+          <svg
+            className="w-3 h-3 text-gray-400"
+            viewBox="0 0 20 20"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M6 8l4 4 4-4"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
         </button>
-        <DropdownPortal anchorRef={nameRef} open={openFilter === "name"} align="left" width={nameRef.current ? nameRef.current.getBoundingClientRect().width : "anchor"}>
+        <DropdownPortal
+          anchorRef={nameRef}
+          open={openFilter === "name"}
+          align="left"
+          width={
+            nameRef.current
+              ? nameRef.current.getBoundingClientRect().width
+              : "anchor"
+          }
+        >
           <div className="mt-2 z-50">
             <NameFilter
               allNames={allNames}
@@ -108,7 +138,7 @@ export default function Filters({
       </div>
 
       {/* Verification Filter */}
-      <div className="relative">
+      <div className="relative px-2">
         <button
           ref={verificationRef}
           onClick={() =>
@@ -116,10 +146,32 @@ export default function Filters({
           }
           className="filter-pill"
         >
-          <span className="text-sm">Verification Status</span>
-          <svg className="w-3 h-3 text-gray-400" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 8l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+          <span className="text-sm px-4">Verification Status</span>
+          <svg
+            className="w-3 h-3 text-gray-400"
+            viewBox="0 0 20 20"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M6 8l4 4 4-4"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
         </button>
-        <DropdownPortal anchorRef={verificationRef} open={openFilter === "verification"} align="left" width={verificationRef.current ? verificationRef.current.getBoundingClientRect().width : "anchor"}>
+        <DropdownPortal
+          anchorRef={verificationRef}
+          open={openFilter === "verification"}
+          align="left"
+          width={
+            verificationRef.current
+              ? verificationRef.current.getBoundingClientRect().width
+              : "anchor"
+          }
+        >
           <div className="mt-2 z-50">
             <VerificationFilter
               selected={verification}
@@ -129,16 +181,38 @@ export default function Filters({
         </DropdownPortal>
       </div>
       {/* Email Filter */}
-      <div className="relative">
+      <div className="relative px-2">
         <button
           ref={emailRef}
           onClick={() => setOpenFilter(openFilter === "email" ? null : "email")}
           className="filter-pill"
         >
-          <span className="text-sm">Email Address</span>
-          <svg className="w-3 h-3 text-gray-400" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 8l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+          <span className="text-sm px-4">Email Address</span>
+          <svg
+            className="w-3 h-3 text-gray-400"
+            viewBox="0 0 20 20"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M6 8l4 4 4-4"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
         </button>
-        <DropdownPortal anchorRef={emailRef} open={openFilter === "email"} align="left" width={emailRef.current ? emailRef.current.getBoundingClientRect().width : "anchor"}>
+        <DropdownPortal
+          anchorRef={emailRef}
+          open={openFilter === "email"}
+          align="left"
+          width={
+            emailRef.current
+              ? emailRef.current.getBoundingClientRect().width
+              : "anchor"
+          }
+        >
           <div className="mt-2 z-50">
             <EmailFilter
               allEmails={allEmails}
@@ -150,16 +224,40 @@ export default function Filters({
       </div>
 
       {/* Mobile Filter */}
-      <div className="relative">
+      <div className="relative px-2">
         <button
           ref={mobileRef}
-          onClick={() => setOpenFilter(openFilter === "mobile" ? null : "mobile")}
+          onClick={() =>
+            setOpenFilter(openFilter === "mobile" ? null : "mobile")
+          }
           className="filter-pill"
         >
-          <span className="text-sm">Mobile Number</span>
-          <svg className="w-3 h-3 text-gray-400" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 8l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+          <span className="text-sm px-4">Mobile Number</span>
+          <svg
+            className="w-3 h-3 text-gray-400"
+            viewBox="0 0 20 20"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M6 8l4 4 4-4"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
         </button>
-        <DropdownPortal anchorRef={mobileRef} open={openFilter === "mobile"} align="left" width={mobileRef.current ? mobileRef.current.getBoundingClientRect().width : "anchor"}>
+        <DropdownPortal
+          anchorRef={mobileRef}
+          open={openFilter === "mobile"}
+          align="left"
+          width={
+            mobileRef.current
+              ? mobileRef.current.getBoundingClientRect().width
+              : "anchor"
+          }
+        >
           <div className="mt-2 z-50">
             <MobileFilter
               allMobiles={allMobileNumbers}
@@ -171,16 +269,40 @@ export default function Filters({
       </div>
 
       {/* Domain Filter */}
-      <div className="relative">
+      <div className="relative px-2">
         <button
           ref={domainRef}
-          onClick={() => setOpenFilter(openFilter === "domain" ? null : "domain")}
+          onClick={() =>
+            setOpenFilter(openFilter === "domain" ? null : "domain")
+          }
           className="filter-pill"
         >
-          <span className="text-sm">Domain</span>
-          <svg className="w-3 h-3 text-gray-400" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 8l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+          <span className="text-sm px-4">Domain</span>
+          <svg
+            className="w-3 h-3 text-gray-400"
+            viewBox="0 0 20 20"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M6 8l4 4 4-4"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
         </button>
-        <DropdownPortal anchorRef={domainRef} open={openFilter === "domain"} align="left" width={domainRef.current ? domainRef.current.getBoundingClientRect().width : "anchor"}>
+        <DropdownPortal
+          anchorRef={domainRef}
+          open={openFilter === "domain"}
+          align="left"
+          width={
+            domainRef.current
+              ? domainRef.current.getBoundingClientRect().width
+              : "anchor"
+          }
+        >
           <div className="mt-2 z-50">
             <DomainFilter
               allDomains={allDomains}
@@ -192,16 +314,34 @@ export default function Filters({
       </div>
 
       {/* Date Filter */}
-      <div className="relative">
+      <div className="relative px-2">
         <button
           ref={dateRef}
           onClick={() => setOpenFilter(openFilter === "date" ? null : "date")}
           className="filter-pill"
         >
-          <span className="text-sm">Date Registered</span>
-          <svg className="w-3 h-3 text-gray-400" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 8l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+          <span className="text-sm px-4">Date Registered</span>
+          <svg
+            className="w-3 h-3 text-gray-400"
+            viewBox="0 0 20 20"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M6 8l4 4 4-4"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
         </button>
-        <DropdownPortal anchorRef={dateRef} open={openFilter === "date"} align="left" width={300}>
+        <DropdownPortal
+          anchorRef={dateRef}
+          open={openFilter === "date"}
+          align="left"
+          width={300}
+        >
           <div className="mt-2 z-50">
             <DateRangeDropdown
               onCancel={() => setOpenFilter(null)}
@@ -221,18 +361,94 @@ export default function Filters({
         </DropdownPortal>
       </div>
 
-      {/* Last Active Filter (same UI as Date Registered) */}
-      <div className="relative">
+      {/* Status Filter (simpl e list like Verification) */}
+      <div className="relative px-2">
         <button
-          ref={lastActiveRef}
-          onClick={() => setOpenFilter(openFilter === "lastActive" ? null : "lastActive")}
+          ref={statusRef}
+          onClick={() =>
+            setOpenFilter(openFilter === "status" ? null : "status")
+          }
           className="filter-pill"
         >
-          <span className="text-sm">Date and Time Last Active</span>
-          <svg className="w-3 h-3 text-gray-400" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 8l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+          <span className="text-sm px-4">Status</span>
+          <svg
+            className="w-3 h-3 text-gray-400"
+            viewBox="0 0 20 20"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M6 8l4 4 4-4"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
         </button>
-        <DropdownPortal anchorRef={lastActiveRef} open={openFilter === "lastActive"} align="left" width={300}>
-          <div className="mt-2 z-50">
+        <DropdownPortal
+          anchorRef={statusRef}
+          open={openFilter === "status"}
+          align="right"
+          width={200}
+        >
+          <div className="mt-2 z-50 right-0 w-48">
+            <div className="bg-[#0b1416] border border-gray-800 rounded-md p-2 text-sm">
+              {["All Statuses", "Active", "Blacklisted", "Disabled"].map(
+                (opt) => (
+                  <div
+                    key={opt}
+                    onClick={() => {
+                      setStatus(opt === "All Statuses" ? "" : opt);
+                      setOpenFilter(null);
+                    }}
+                    className={`px-3 py-2 rounded cursor-pointer hover:bg-[#071018] ${
+                      status === (opt === "All Statuses" ? "" : opt)
+                        ? "text-green-400 font-medium"
+                        : "text-gray-200"
+                    }`}
+                  >
+                    {opt}
+                  </div>
+                )
+              )}
+            </div>
+          </div>
+        </DropdownPortal>
+      </div>
+
+      {/* Last Active Filter (same UI as Date Registered) */}
+      <div className="relative px-2">
+        <button
+          ref={lastActiveRef}
+          onClick={() =>
+            setOpenFilter(openFilter === "lastActive" ? null : "lastActive")
+          }
+          className="filter-pill"
+        >
+          <span className="text-sm px-4">Date and Time Last Active</span>
+          <svg
+            className="w-3 h-3 text-gray-400"
+            viewBox="0 0 20 20"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M6 8l4 4 4-4"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </button>
+        <DropdownPortal
+          anchorRef={lastActiveRef}
+          open={openFilter === "lastActive"}
+          align="left"
+          width={300}
+        >
+          <div className="mt-2 z-50 absolute">
             <DateRangeDropdown
               onCancel={() => setOpenFilter(null)}
               onApply={() => setOpenFilter(null)}
@@ -246,37 +462,6 @@ export default function Filters({
                 setOpenFilter(null);
               }}
             />
-          </div>
-        </DropdownPortal>
-      </div>
-      {/* Status Filter (simple list like Verification) */}
-      <div className="relative">
-        <button
-          ref={statusRef}
-          onClick={() => setOpenFilter(openFilter === "status" ? null : "status")}
-          className="filter-pill"
-        >
-          <span className="text-sm">Status</span>
-          <svg className="w-3 h-3 text-gray-400" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 8l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
-        </button>
-        <DropdownPortal anchorRef={statusRef} open={openFilter === "status"} align="right" width={200}>
-          <div className="mt-2 z-50 right-0 w-48">
-            <div className="bg-[#0b1416] border border-gray-800 rounded-md p-2 text-sm">
-              {["All Statuses", "Active", "Blacklisted", "Disabled"].map((opt) => (
-                <div
-                  key={opt}
-                  onClick={() => {
-                    setStatus(opt === "All Statuses" ? "" : opt);
-                    setOpenFilter(null);
-                  }}
-                  className={`px-3 py-2 rounded cursor-pointer hover:bg-[#071018] ${
-                    status === (opt === "All Statuses" ? "" : opt) ? "text-green-400 font-medium" : "text-gray-200"
-                  }`}
-                >
-                  {opt}
-                </div>
-              ))}
-            </div>
           </div>
         </DropdownPortal>
       </div>

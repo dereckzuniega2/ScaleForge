@@ -27,7 +27,7 @@ export default function Home() {
   const [sortKey, setSortKey] = useState<string | null>(null);
   const [sortDir, setSortDir] = useState<"asc" | "desc" | null>(null);
   const [page, setPage] = useState(1);
-  const pageSize = 10;
+  const [itemNumber, setItemNumber] = useState<number>(10);
   const [selectedNames, setSelectedNames] = useState<string[]>([]);
   const [selectedEmails, setSelectedEmails] = useState<string[]>([]);
   const [selectedMobileNumbers, setSelectedMobileNumbers] = useState<string[]>(
@@ -39,19 +39,21 @@ export default function Home() {
   >([]);
   const [selectedLastActive, setSelectedLastActive] = useState<string[]>([]);
   // server-backed match keys for date filters (prefer server results when present)
-  const [dateRegisteredServerKeys, setDateRegisteredServerKeys] = useState<Set<string> | null>(null);
-  const [lastActiveServerKeys, setLastActiveServerKeys] = useState<Set<string> | null>(null);
+  const [dateRegisteredServerKeys, setDateRegisteredServerKeys] =
+    useState<Set<string> | null>(null);
+  const [lastActiveServerKeys, setLastActiveServerKeys] =
+    useState<Set<string> | null>(null);
 
   // Fetch members from GraphQL
   const { data, loading, error } = useQuery<GetMembersQuery>(GET_MEMBERS, {
     variables: { first: 100 },
   });
 
-  if(loading){
+  if (loading) {
     console.log("Loading members...");
   }
 
-  if(error){
+  if (error) {
     console.error("Error loading members:", error);
   }
 
@@ -84,21 +86,27 @@ export default function Home() {
   useEffect(() => {
     // names
     if (namesData && !Array.isArray((namesData as any).membersByName)) {
-      console.warn('SEARCH_BY_NAME returned unexpected shape', namesData);
+      console.warn("SEARCH_BY_NAME returned unexpected shape", namesData);
     }
     // emails
-    if (emailsData && !Array.isArray((emailsData as any).membersByEmailAddress)) {
-      console.warn('SEARCH_BY_EMAIL returned unexpected shape', emailsData);
+    if (
+      emailsData &&
+      !Array.isArray((emailsData as any).membersByEmailAddress)
+    ) {
+      console.warn("SEARCH_BY_EMAIL returned unexpected shape", emailsData);
     }
     // mobiles
-    if (mobilesData && !Array.isArray((mobilesData as any).membersByMobileNumber)) {
-      console.warn('SEARCH_BY_MOBILE returned unexpected shape', mobilesData);
+    if (
+      mobilesData &&
+      !Array.isArray((mobilesData as any).membersByMobileNumber)
+    ) {
+      console.warn("SEARCH_BY_MOBILE returned unexpected shape", mobilesData);
     }
     // domains
     if (domainsData && !Array.isArray((domainsData as any).membersByDomain)) {
-      console.warn('SEARCH_BY_DOMAIN returned unexpected shape', domainsData);
+      console.warn("SEARCH_BY_DOMAIN returned unexpected shape", domainsData);
     }
-  }, [namesData, emailsData, mobilesData, domainsData]);
+  }, [namesData, emailsData, mobilesData, domainsData, itemNumber]);
 
   // Map GraphQL response to local Member[] shape
   const allMembers: Member[] = useMemo(() => {
@@ -112,7 +120,11 @@ export default function Home() {
         const statusRaw = (n.status || "").toString().toUpperCase();
         // normalize verification and status into the title-case values used by UI
         const verification =
-          ver === "VERIFIED" ? "Verified" : ver === "PENDING" ? "Pending" : "Unverified";
+          ver === "VERIFIED"
+            ? "Verified"
+            : ver === "PENDING"
+            ? "Pending"
+            : "Unverified";
         const status =
           statusRaw === "ACTIVE"
             ? "Active"
@@ -137,15 +149,23 @@ export default function Home() {
           domain: n.domain || "",
           dateRegistered,
           // map lastActive if available
-            lastActive: n.dateTimeLastActive ? new Date(n.dateTimeLastActive).toISOString().slice(0, 10) : "",
+          lastActive: n.dateTimeLastActive
+            ? new Date(n.dateTimeLastActive).toISOString().slice(0, 10)
+            : "",
           status,
         } as Member;
       });
   }, [data]);
 
   // Build datetime variables for server queries when ranges are selected
-  const dateRegFrom = selectedDateRegistered.length === 2 ? selectedDateRegistered[0] + "T00:00:00Z" : undefined;
-  const dateRegTo = selectedDateRegistered.length === 2 ? selectedDateRegistered[1] + "T23:59:59Z" : undefined;
+  const dateRegFrom =
+    selectedDateRegistered.length === 2
+      ? selectedDateRegistered[0] + "T00:00:00Z"
+      : undefined;
+  const dateRegTo =
+    selectedDateRegistered.length === 2
+      ? selectedDateRegistered[1] + "T23:59:59Z"
+      : undefined;
   // translate UI verification labels to server values if needed
   const mapVerificationToEnum = (v: string | null) => {
     if (!v) return null;
@@ -160,29 +180,45 @@ export default function Home() {
     return v;
   };
 
-  const dateRegVerificationStatus = mapVerificationToEnum(verification ? verification : null);
+  const dateRegVerificationStatus = mapVerificationToEnum(
+    verification ? verification : null
+  );
 
-  const lastActiveFrom = selectedLastActive.length === 2 ? selectedLastActive[0] + "T00:00:00Z" : undefined;
-  const lastActiveTo = selectedLastActive.length === 2 ? selectedLastActive[1] + "T23:59:59Z" : undefined;
-  const lastActiveVerificationStatus = mapVerificationToEnum(verification ? verification : null);
+  const lastActiveFrom =
+    selectedLastActive.length === 2
+      ? selectedLastActive[0] + "T00:00:00Z"
+      : undefined;
+  const lastActiveTo =
+    selectedLastActive.length === 2
+      ? selectedLastActive[1] + "T23:59:59Z"
+      : undefined;
+  const lastActiveVerificationStatus = mapVerificationToEnum(
+    verification ? verification : null
+  );
 
   // Query the server for members in the selected date ranges. We use `skip` so these
   // only execute when a full range is selected.
-  const dateRegVariables: any = dateRegFrom && dateRegTo
-    ? {
-        from: dateRegFrom,
-        to: dateRegTo,
-        ...(dateRegVerificationStatus ? { verificationStatus: dateRegVerificationStatus } : {}),
-      }
-    : undefined;
+  const dateRegVariables: any =
+    dateRegFrom && dateRegTo
+      ? {
+          from: dateRegFrom,
+          to: dateRegTo,
+          ...(dateRegVerificationStatus
+            ? { verificationStatus: dateRegVerificationStatus }
+            : {}),
+        }
+      : undefined;
 
-  const lastActiveVariables: any = lastActiveFrom && lastActiveTo
-    ? {
-        from: lastActiveFrom,
-        to: lastActiveTo,
-        ...(lastActiveVerificationStatus ? { verificationStatus: lastActiveVerificationStatus } : {}),
-      }
-    : undefined;
+  const lastActiveVariables: any =
+    lastActiveFrom && lastActiveTo
+      ? {
+          from: lastActiveFrom,
+          to: lastActiveTo,
+          ...(lastActiveVerificationStatus
+            ? { verificationStatus: lastActiveVerificationStatus }
+            : {}),
+        }
+      : undefined;
 
   const { data: dateRegData } = useQuery(SEARCH_BY_DATE_REGISTERED, {
     variables: dateRegVariables,
@@ -246,18 +282,19 @@ export default function Home() {
         return false;
       if (
         // Date Registered: prefer server results when available, otherwise compare ISO date string
-        (dateRegisteredServerKeys && dateRegisteredServerKeys.size > 0
+        dateRegisteredServerKeys && dateRegisteredServerKeys.size > 0
           ? !dateRegisteredServerKeys.has(m.id || m.email || m.name)
-          : (selectedDateRegistered.length > 0 && !selectedDateRegistered.includes(m.dateRegistered)))
+          : selectedDateRegistered.length > 0 &&
+            !selectedDateRegistered.includes(m.dateRegistered)
       )
         return false;
       if (
         // Last Active: prefer server results when available, otherwise compare ISO date string
-        (lastActiveServerKeys && lastActiveServerKeys.size > 0
+        lastActiveServerKeys && lastActiveServerKeys.size > 0
           ? !lastActiveServerKeys.has(m.id || (m as any).email || m.name)
-          : (selectedLastActive.length > 0 && (
-              !(m as any).lastActive || !selectedLastActive.includes((m as any).lastActive)
-            )))
+          : selectedLastActive.length > 0 &&
+            (!(m as any).lastActive ||
+              !selectedLastActive.includes((m as any).lastActive))
       )
         return false;
       return true;
@@ -294,11 +331,11 @@ export default function Home() {
   }, [filtered, sortKey, sortDir]);
 
   // Pagination
-  const totalPages = Math.max(1, Math.ceil(sorted.length / pageSize));
+  const totalPages = Math.max(1, Math.ceil(sorted.length / itemNumber));
   const pageData = useMemo(() => {
-    const start = (page - 1) * pageSize;
-    return sorted.slice(start, start + pageSize);
-  }, [sorted, page, pageSize]);
+    const start = (page - 1) * itemNumber;
+    return sorted.slice(start, start + itemNumber);
+  }, [sorted, page, itemNumber]);
 
   const toggleSort = (key: string) => {
     if (sortKey !== key) {
@@ -314,7 +351,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-[130vh]">
+    <div className="min-h-[100vh] mt-20">
       <div className="w-[90%] mx-auto px-4 md:px-8">
         <h1 className="text-3xl font-semibold mb-2">Members</h1>
         <p className="text-gray-400 mb-6">View your members here.</p>
@@ -341,30 +378,50 @@ export default function Home() {
               // prefer server-provided suggestion lists when available, fall back to local computed lists
               allNames={
                 // prefer server suggestions when they are present; fall back to allMembers
-                (namesData && Array.isArray((namesData as any).membersByName) && (namesData as any).membersByName.length > 0
+                namesData &&
+                Array.isArray((namesData as any).membersByName) &&
+                (namesData as any).membersByName.length > 0
                   ? (namesData as any).membersByName.map((n: any) => n.name)
-                  : allMembers.map((m) => m.name))
+                  : allMembers.map((m) => m.name)
               }
               allEmails={
-                (emailsData && Array.isArray((emailsData as any).membersByEmailAddress) && (emailsData as any).membersByEmailAddress.length > 0
-                  ? (emailsData as any).membersByEmailAddress.map((n: any) => n.emailAddress)
-                  : allMembers.map((m) => m.email))
+                emailsData &&
+                Array.isArray((emailsData as any).membersByEmailAddress) &&
+                (emailsData as any).membersByEmailAddress.length > 0
+                  ? (emailsData as any).membersByEmailAddress.map(
+                      (n: any) => n.emailAddress
+                    )
+                  : allMembers.map((m) => m.email)
               }
               allMobileNumbers={
-                (mobilesData && Array.isArray((mobilesData as any).membersByMobileNumber) && (mobilesData as any).membersByMobileNumber.length > 0
-                  ? (mobilesData as any).membersByMobileNumber.map((n: any) => n.mobileNumber)
-                  : allMembers.map((m) => m.mobile))
+                mobilesData &&
+                Array.isArray((mobilesData as any).membersByMobileNumber) &&
+                (mobilesData as any).membersByMobileNumber.length > 0
+                  ? (mobilesData as any).membersByMobileNumber.map(
+                      (n: any) => n.mobileNumber
+                    )
+                  : allMembers.map((m) => m.mobile)
               }
               allDomains={
-                (domainsData && Array.isArray((domainsData as any).membersByDomain) && (domainsData as any).membersByDomain.length > 0
-                  ? (domainsData as any).membersByDomain.map((n: any) => n.domain)
-                  : allMembers.map((m) => m.domain))
+                domainsData &&
+                Array.isArray((domainsData as any).membersByDomain) &&
+                (domainsData as any).membersByDomain.length > 0
+                  ? (domainsData as any).membersByDomain.map(
+                      (n: any) => n.domain
+                    )
+                  : allMembers.map((m) => m.domain)
               }
               selectedLastActive={selectedLastActive}
               setSelectedLastActive={setSelectedLastActive}
             />
-            {loading && <div className="text-sm text-gray-400 mt-2">Loading members…</div>}
-            {error && <div className="text-sm text-red-500 mt-2">Error loading members</div>}
+            {loading && (
+              <div className="text-sm text-gray-400 mt-2">Loading members…</div>
+            )}
+            {error && (
+              <div className="text-sm text-red-500 mt-2">
+                Error loading members
+              </div>
+            )}
           </div>
           <div className="border-t border-gray-800" />
 
@@ -378,22 +435,27 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="flex items-center justify-between mt-4 text-sm text-gray-400">
-          <div>
+        <div className="flex items-center justify-end mt-4 text-sm text-gray-400">
+          {/* <div>
             Showing {(page - 1) * pageSize + 1} to{" "}
             {Math.min(page * pageSize, sorted.length)} of {sorted.length}{" "}
             entries
-          </div>
+          </div> */}
           <div className="flex items-center gap-2">
+            <button
+              onClick={() =>
+                itemNumber == 10 ? setItemNumber(5) : setItemNumber(10)
+              }
+              className="px-3 py-2 rounded border border-gray-800"
+            >
+              {itemNumber} Entries
+            </button>
             <button
               onClick={() => setPage((p) => Math.max(1, p - 1))}
               className="px-3 py-2 rounded border border-gray-800"
             >
               ← Previous
             </button>
-            <div>
-              Page {page} / {totalPages}
-            </div>
             <button
               onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
               className="px-3 py-2 rounded border border-gray-800"
