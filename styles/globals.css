@@ -1,0 +1,95 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom dark theme tweaks */
+:root {
+  --bg: #071018;
+  --panel: #0e1b20;
+  --muted: #98a0a6;
+  --accent: #10b981;
+  --danger: #ef4444;
+  --card: #0b1416;
+}
+html,
+body,
+#__next {
+  height: 100%;
+}
+body {
+  @apply bg-[#071018] text-gray-200 antialiased;
+  background-color: var(--bg);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial;
+}
+.table-scroll {
+  overflow: auto;
+}
+.badge {
+  @apply text-xs font-medium px-3 py-1 rounded-full;
+}
+.badge-verified {
+  background: rgba(16, 185, 129, 0.12);
+  color: #10b981;
+  border: 1px solid rgba(16, 185, 129, 0.18);
+}
+.badge-unverified {
+  background: rgba(239, 68, 68, 0.08);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.12);
+}
+.badge-pending {
+  background: rgba(250, 204, 21, 0.08);
+  color: #facc15;
+  border: 1px solid rgba(250, 204, 21, 0.12);
+}
+.badge-blacklisted {
+  background: rgba(239, 68, 68, 0.06);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.1);
+}
+.badge-active {
+  background: rgba(16, 185, 129, 0.08);
+  color: #10b981;
+  border: 1px solid rgba(16, 185, 129, 0.12);
+}
+.badge-disabled {
+  background: rgba(107, 114, 128, 0.04);
+  color: #6b7280;
+  border: 1px solid rgba(107, 114, 128, 0.06);
+}
+.rdrDefinedRangesWrapper {
+  display: none !important;
+}
+/* Dark theme overrides for react-date-range */
+.dark-calendar .rdrCalendarWrapper {
+  background-color: #000 !important; /* Full black */
+  color: #fff !important;
+}
+
+.dark-calendar .rdrMonthAndYearPickers select {
+  background: #000 !important;
+  color: #fff !important;
+}
+
+.dark-calendar .rdrDayNumber span {
+  color: #d1d5db !important; /* gray-300 */
+}
+
+.dark-calendar .rdrDayToday .rdrDayNumber span {
+  border: 1px solid #facc15 !important; /* yellow */
+}
+
+.dark-calendar .rdrDayHovered,
+.dark-calendar .rdrDayStartPreview,
+.dark-calendar .rdrDayEndPreview {
+  background: #1f2937 !important; /* gray-800 hover */
+}
+
+.dark-calendar .rdrDaySelected,
+.dark-calendar .rdrInRange,
+.dark-calendar .rdrStartEdge,
+.dark-calendar .rdrEndEdge {
+  background: #facc15 !important; /* yellow */
+  color: #000 !important;
+}
