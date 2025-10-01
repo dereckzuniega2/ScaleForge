@@ -3,12 +3,13 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 3001",
+  "dev": "node ./scripts/check-graphql.js && next dev -p 3000",
     "build": "next build",
-    "start": "next start",
+  "start": "node ./scripts/check-graphql.js && next start",
     "lint": "next lint"
   },
   "dependencies": {
+    "@apollo/client": "^4.0.7",
     "@headlessui/react": "^2.2.9",
     "clsx": "^1.2.1",
     "date-fns": "^4.1.0",

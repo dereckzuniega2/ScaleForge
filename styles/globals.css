@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -11,20 +12,26 @@
   --danger: #ef4444;
   --card: #0b1416;
 }
+
 html,
-body,
 #__next {
   height: 100%;
 }
+
+/* Base body styles (slightly reduced scale for a normal layout) */
 body {
   @apply bg-[#071018] text-gray-200 antialiased;
   background-color: var(--bg);
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI",
     Roboto, "Helvetica Neue", Arial;
+  font-size: 0.95rem;
 }
+
 .table-scroll {
   overflow: auto;
 }
+
+/* Badges */
 .badge {
   @apply text-xs font-medium px-3 py-1 rounded-full;
 }
@@ -58,12 +65,10 @@ body {
   color: #6b7280;
   border: 1px solid rgba(107, 114, 128, 0.06);
 }
-.rdrDefinedRangesWrapper {
-  display: none !important;
-}
+
 /* Dark theme overrides for react-date-range */
 .dark-calendar .rdrCalendarWrapper {
-  background-color: #000 !important; /* Full black */
+  background-color: #000 !important;
   color: #fff !important;
 }
 
@@ -73,23 +78,80 @@ body {
 }
 
 .dark-calendar .rdrDayNumber span {
-  color: #d1d5db !important; /* gray-300 */
+  color: #d1d5db !important;
 }
 
 .dark-calendar .rdrDayToday .rdrDayNumber span {
-  border: 1px solid #facc15 !important; /* yellow */
+  border: 1px solid #facc15 !important;
 }
 
 .dark-calendar .rdrDayHovered,
 .dark-calendar .rdrDayStartPreview,
 .dark-calendar .rdrDayEndPreview {
-  background: #1f2937 !important; /* gray-800 hover */
+  background: #1f2937 !important;
 }
 
 .dark-calendar .rdrDaySelected,
 .dark-calendar .rdrInRange,
 .dark-calendar .rdrStartEdge,
 .dark-calendar .rdrEndEdge {
-  background: #facc15 !important; /* yellow */
+  background: #facc15 !important;
   color: #000 !important;
 }
+
+/* Filters bar styles (compact pill buttons, scrollable) */
+.filters-container {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+  padding: 0.45rem 0;
+  background: transparent;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.filters-title {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 0.5rem;
+}
+
+.filters-title > div {
+  background: rgba(11,20,22,0.6);
+  border: 1px solid rgba(255,255,255,0.04);
+  color: #d1d5db;
+  padding: 0.28rem 0.55rem;
+  border-radius: 0.375rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+.filter-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.32rem 0.6rem;
+  min-height: 32px;
+  background: rgba(7,18,26,0.55);
+  border: 1px solid rgba(255,255,255,0.04);
+  color: #d1d5db;
+  font-size: 0.88rem;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  transition: background 120ms ease, transform 60ms ease;
+}
+
+.filter-pill svg {
+  opacity: 0.6;
+  width: 14px;
+  height: 14px;
+}
+
+.filter-pill:hover {
+  background: rgba(11,20,22,0.85);
+}
+
+.filter-pill:active {
+  transform: translateY(1px);
+}
+
